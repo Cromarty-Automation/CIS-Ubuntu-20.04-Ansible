@@ -90,9 +90,11 @@
       when: IPv6_is_enabled
     - name: 3.2.2 Ensure IP forwarding is disabled | IPV4 load"
       script: 3_2_2.sh
+      ignore_errors: yes
     - name: 3.2.2 Ensure IP forwarding is disabled | IPV6 load"
       script: 3_2_2_2.sh
       when: IPv6_is_enabled
+      ignore_errors: yes
   tags:
     - section3
     - level_1_server
