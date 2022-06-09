@@ -344,7 +344,7 @@
         recurse: yes
       with_items: "{{ output_6_2_5_list }}"
   # TODO FIX THIS SCRIPT RUN
-  when: false
+  ignore_errors: yes
   tags:
     - section6
     - level_1_server
@@ -367,6 +367,8 @@
         mode: "g-w,o-rwx"
       with_items: "{{ output_6_2_6.stdout_lines }}"
       when: "{{ output_6_2_6.stdout_lines|length > 0 }}"
+  # TODO FIX THIS SCRIPT RUN
+  ignore_errors: yes
   tags:
     - section6
     - level_1_server
@@ -414,6 +416,8 @@
         - fix_dot_file_permissions
         - "'stdout_lines' in output_6_2_7_folders"
         - fix_dot_include_folders
+  # TODO FIX THIS SCRIPT RUN
+  ignore_errors: yes
   tags:
     - section6
     - level_1_server
@@ -431,6 +435,8 @@
       copy:
         dest: "{{ outputfiles }}/6.2.8"
         content: "{{ output_6_2_8.stdout }}"
+  # TODO FIX THIS SCRIPT RUN
+  ignore_errors: yes
   tags:
     - section6
     - level_1_server
@@ -448,6 +454,8 @@
       copy:
         dest: "{{ outputfiles }}/6.2.9"
         content: "{{ output_6_2_9.stdout }}"
+  # TODO FIX THIS SCRIPT RUN
+  ignore_errors: yes
   tags:
     - section6
     - level_1_server
@@ -464,6 +472,8 @@
       copy:
         dest: "{{ outputfiles }}/6.2.10"
         content: "{{ output_6_2_11.stdout }}"
+  # TODO FIX THIS SCRIPT RUN
+  ignore_errors: yes
   tags:
     - section6
     - level_1_server
@@ -517,6 +527,8 @@
       copy:
         dest: "{{ outputfiles }}/6.2.12"
         content: "{{ output_6_2_3 }}"
+  # TODO FIX THIS SCRIPT RUN
+  ignore_errors: yes
   tags:
     - section6
     - level_1_server
