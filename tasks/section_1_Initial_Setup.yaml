@@ -144,7 +144,7 @@
 # 1.1.1.6 Ensure mounting of squashfs filesystems is disabled
 # The squashfs filesystem type is a compressed read-only Linux filesystem embedded in small footprint systems
 # (similar to cramfs ). A squashfs image can be used without having to first decompress the image.
-#Disabling squashfs will prevent the use of snap. Snap is a package manager for Linux for installing Snap packages
+# Disabling squashfs will prevent the use of snap. Snap is a package manager for Linux for installing Snap packages
 - name: 1.1.1.6 Ensure mounting of squashfs filesystems is disabled
   block:
     - name: 1.1.1.6 Ensure mounting of squashfs filesystems is disabled
