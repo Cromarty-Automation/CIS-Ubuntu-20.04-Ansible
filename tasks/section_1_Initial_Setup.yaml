@@ -800,6 +800,8 @@
         insertbefore: "# End of file"
     - name: 1.5.4 Ensure core dumps are restricted | reload
       shell: systemctl daemon-reload
+  # TODO FIX THIS SCRIPT RUN
+  ignore_errors: yes
   tags:
     - section1
     - level_1_server
