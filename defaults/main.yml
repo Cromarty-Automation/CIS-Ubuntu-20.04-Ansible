@@ -66,7 +66,7 @@ chrony_keys: /etc/chrony/chrony.keys
 chrony_log_dir: /var/log/chrony
 
 web_server_name: nginx
-remove_HTTPserver: no
+remove_HTTPserver: yes
 remove_xinetd: yes
 remove_openbsd_inetd: yes
 remove_XWindowSystem: yes
