@@ -291,7 +291,7 @@
 # Note: Several HTTP proxy servers exist. These and other services should be checked
 - name: 2.1.13 Ensure HTTP Proxy Server is not installed
   apt:
-    name: ["squid, "varnish"]
+    name: ["squid", "varnish"]
     state: absent
   when: remove_HTTPProxyServer
   tags:
