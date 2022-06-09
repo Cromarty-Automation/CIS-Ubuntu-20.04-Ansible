@@ -6,12 +6,13 @@
   become: true
   block:
     - name: 6.1.1 Audit system file permissions
-      script: 6_1_1.sh
+      script: files/6_1_1.sh
       register: output_6_1_1
     - name: 6.1.1 Audit system file permissions | save output to file
       copy:
         dest: "{{ outputfiles }}/6.1.1"
         content: "{{ output_6_1_1.stdout_lines }}"
+  ignore_errors: yes
   tags:
     - section6
     - level_1_server
@@ -342,6 +343,8 @@
         owner: "{{ item.split(',')[1] }}"
         recurse: yes
       with_items: "{{ output_6_2_5_list }}"
+  # TODO FIX THIS SCRIPT RUN
+  when: false
   tags:
     - section6
     - level_1_server
@@ -352,7 +355,7 @@
 - name: 6.2.6 Ensure users' home directories permissions are 750 or more restrictive
   block:
     - name: 6.2.6 Ensure users home directories permissions are 750 or more restrictive - list
-      script: 6_2_6.sh
+      script: files/6_2_6.sh
       register: output_6_2_6
     - name: 6.2.6 Ensure users' home directories permissions are 750 or more restrictive - print output
       copy:
@@ -374,11 +377,11 @@
 - name: 6.2.7 Ensure users dot files are not group or world writable
   block:
     - name: 6.2.7 Ensure users' dot files are not group or world writable | list
-      script: 6_2_7.sh
+      script: files/6_2_7.sh
       register: output_6_2_7_files
       when: not fix_dot_include_folders
     - name: 6.2.7 Ensure users' dot files and folders are not group or world writable | list
-      script: 6_2_7_include_folders.sh
+      script: files/6_2_7_include_folders.sh
       register: output_6_2_7_folders
       when: fix_dot_include_folders
     - name: 6.2.7 Ensure users' dot files are not group or world writable | save output
@@ -422,7 +425,7 @@
 - name: 6.2.8 Ensure no users have .netrc files
   block:
     - name: 6.2.8 Ensure no users have .netrc files | list
-      script: 6_2_8.sh
+      script: files/6_2_8.sh
       register: output_6_2_8
     - name: 6.2.8 Ensure no users have .netrc files | save output
       copy:
@@ -439,7 +442,7 @@
 - name: 6.2.9 Ensure no users have .forward files
   block:
     - name: 6.2.9 Ensure no users have .forward files | list
-      script: 6_2_9.sh
+      script: files/6_2_9.sh
       register: output_6_2_9
     - name: 6.2.9 Ensure no users have .forward files  | save output
       copy:
@@ -498,17 +501,17 @@
     - name: 6.2.12 Ensure root PATH Integrity | run | Delete non-existing folders from PATH
       block:
       - name: 6.2.12 Ensure root PATH Integrity | run | Delete non-existing folders from PATH
-        script: 6_2_3_delete_nonexisting.sh
+        script: files/6_2_3_delete_nonexisting.sh
         register: output_6_2_3
       when: path_integrity_delete_nonexisting_paths
     - name: 6.2.12 Ensure root PATH Integrity | run
       block:
       - name: 6.2.12 Ensure root PATH Integrity | run
-        script: 6_2_3.sh
+        script: files/6_2_3.sh
         register: output_6_2_3
       when: not path_integrity_delete_nonexisting_paths
     - name: 6.2.12 Ensure root PATH Integrity | run
-      script: 6_2_3.sh
+      script: files/6_2_3.sh
       register: output_6_2_3
     - name: 6.2.12 Ensure root PATH Integrity | save output
       copy:

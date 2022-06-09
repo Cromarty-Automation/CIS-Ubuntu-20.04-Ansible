@@ -338,6 +338,7 @@
         regexp: "^[Mm]atch [Aa]ddress.*\n*PermitRootLogin.*"
         line: "Match address {{ ssh_root_login_ips }}\n PermitRootLogin yes"
       when: (ssh_root_login_ips != "None") and (ssh_root_login_ips|length > 0)
+  when: false
   tags:
   - section5
   - level_1_server
@@ -813,14 +814,14 @@
   block:
     - name: 5.7 Ensure access to the su command is restricted  | create su-group-access
       template:
-        src: files/templates/etc/su-group-access.j2
+        src: ../files/templates/etc/su-group-access.j2
         dest: "/etc/security/su-group-access"
         owner: root
         group: root
         mode: 0644
     - name: 5.7 Ensure access to the su command is restricted  | create pam-d-su
       template:
-        src: files/templates/etc/pam-d-su.j2
+        src: ../files/templates/etc/pam-d-su.j2
         dest: "/etc/pam.d/su"
         owner: root
         group: root
