@@ -29,7 +29,6 @@
         name: "ntp"
         state: started
         enabled: true
-  when: "{{enableNTP}}"
 
   tags:
     - section2
