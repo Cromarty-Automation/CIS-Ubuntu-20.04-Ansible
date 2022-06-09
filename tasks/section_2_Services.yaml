@@ -247,7 +247,12 @@
 # example services that provide an HTTP server. These and other services should also be audited
 - name: 2.1.10 Ensure HTTP server is not installed
   apt:
-    name: ["{{ web_server_name }}"]
+    name:
+      - apache2
+      - nginx
+      - lighttpd
+      - tomcat*
+      - nodejs
     state: absent
   when: remove_HTTPserver
   tags:
