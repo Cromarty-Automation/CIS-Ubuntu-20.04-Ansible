@@ -11,7 +11,7 @@
 #       fail:
 #         msg: "Exiting: Change root_password from r00tP4ssw0rd in defaults/main.yml"
 #   when: set_root_password and root_password is match ("r00tP4ssw0rd")
-  
+
 # 1.1.1 Disable unused filesystems
 # 1.1.1.1 Ensure mounting of cramfs filesystems is disabled
 # Removing support for unneeded filesystem types reduces the local attack surface of the
@@ -142,7 +142,7 @@
     - hfsplus
     - modprobe
 # 1.1.1.6 Ensure mounting of squashfs filesystems is disabled
-# The squashfs filesystem type is a compressed read-only Linux filesystem embedded in small footprint systems 
+# The squashfs filesystem type is a compressed read-only Linux filesystem embedded in small footprint systems
 # (similar to cramfs ). A squashfs image can be used without having to first decompress the image.
 #Disabling squashfs will prevent the use of snap. Snap is a package manager for Linux for installing Snap packages
 - name: 1.1.1.6 Ensure mounting of squashfs filesystems is disabled
@@ -188,7 +188,7 @@
   when: disable_udf
   tags:
     - section1
-    - level_1_server    
+    - level_1_server
     - level_1_workstation
     - 1.1.1.7
     - filesystems
@@ -520,61 +520,6 @@
     - level_1_workstation
     - 1.2.2
     - manual
-# 1.3 Configure sudo
-# sudo allows a permitted user to execute a command as the superuser or another user, as
-# specified by the security policy. The invoking user's real (not effective) user ID is used to
-# determine the user name with which to query the security policy.
-# sudo supports a plugin architecture for security policies and input/output logging. Third
-# parties can develop and distribute their own policy and I/O logging plugins to work
-# seamlessly with the sudo front end. The default security policy is sudoers, which is
-# configured via the file /etc/sudoers.
-# 1.3.1 Ensure sudo is installed
-- name: 1.3.1 Ensure sudo is installed
-  apt:
-    name: sudo
-    state: present
-    install_recommends: false
-  tags:
-    - section1
-    - level_1_server
-    - level_1_workstation
-    - 1.3.1
-# 1.3.2 Ensure sudo commands use pty
-# sudo can be configured to run only from a pseudo-pty
-# Note: visudo edits the sudoers file in a safe fashion, analogous to vipw(8). visudo locks the
-# sudoers file against multiple simultaneous edits, provides basic sanity checks, and checks or
-# parse errors. If the sudoers file is currently being edited you will receive a message to try
-# again later.
-- name: 1.3.2 Ensure sudo commands use pty
-  lineinfile:
-    dest: /etc/sudoers
-    state: present
-    regexp: "^Defaults use_pty"
-    line: "Defaults use_pty"
-    validate: "visudo -cf %s"
-  tags:
-    - section1
-    - level_1_server
-    - level_1_workstation
-    - 1.3.2
-# 1.3.3 Ensure sudo log file exists
-# sudo can use a custom log file.
-# Note: visudo edits the sudoers file in a safe fashion, analogous to vipw(8). visudo locks the
-# sudoers file against multiple simultaneous edits, provides basic sanity checks, and checks or
-# parse errors. If the sudoers file is currently being edited you will receive a message to try
-# again later.
-- name: 1.3.3 Ensure sudo log file exists
-  lineinfile:
-    dest: /etc/sudoers
-    state: present
-    regexp: "^Defaults logfile.*"
-    line: 'Defaults logfile="/var/log/sudo.log"'
-    validate: "visudo -cf %s"
-  tags:
-    - section1
-    - level_1_server
-    - level_1_workstation
-    - 1.3.3
 # 1.4 Filesystem Integrity Checking
 # AIDE is a file integrity checking tool, similar in nature to Tripwire. While it cannot prevent
 # intrusions, it can detect unauthorized changes to configuration files by alerting when the
@@ -654,7 +599,7 @@
 # involved in the boot process directly.
 
 # 1.4.1 Ensure permissions on bootloader config are not overridden
-- name: 1.4.1 Ensure permissions on bootloader config are not overridden 
+- name: 1.4.1 Ensure permissions on bootloader config are not overridden
   block:
     - name: 1.4.1 Ensure permissions on bootloader config are not overridden - step 1 - update chmod 444 to chmod 400 in /usr/sbin/grubmkconfig
       shell: sed -ri 's/chmod\s+[0-7][0-7][0-7]\s+\$\{grub_cfg\}\.new/chmod 400 ${grub_cfg}.new/' /usr/sbin/grub-mkconfig
@@ -760,9 +705,9 @@
       when: root_password is match ("r00tP4ssw0rd")
 
     - name: 1.4.4 Ensure authentication required for single user mode - create a root password
-      user: 
-        name: root 
-        update_password: always 
+      user:
+        name: root
+        update_password: always
         password: "{{root_password | password_hash('sha512')}}"
 
   rescue:
@@ -1061,20 +1006,20 @@
 # apt purge gdm3
 # 1.8.2 Ensure GDM login banner is configured
 # Edit or create the file /etc/gdm3/greeter.dconf-defaults and add the following:
-# [org/gnome/login-screen] 
-# banner-message-enable=true 
-# banner-message-text='<banner message>' 
+# [org/gnome/login-screen]
+# banner-message-enable=true
+# banner-message-text='<banner message>'
 # disable-user-list=true
 # Then dpkg-reconfigure gdm3
 # 1.8.3 Ensure disable-user-list is enabled
 # Edit or create the file /etc/gdm3/greeter.dconf-defaults and edit or add the following:
-# [org/gnome/login-screen] 
-# banner-message-enable=true 
-# banner-message-text='<banner message>' 
+# [org/gnome/login-screen]
+# banner-message-enable=true
+# banner-message-text='<banner message>'
 # disable-user-list=true
 # Then dpkg-reconfigure gdm3
 # 1.8.4 Ensure XDCMP is not enabled
-# Edit the file /etc/gdm3/custom.conf and remove the line: 
+# Edit the file /etc/gdm3/custom.conf and remove the line:
 # Enable=true
 # 1.9 Ensure updates, patches, and additional security software are installed
 - name: 1.9 Ensure updates, patches, and additional security software are installed
