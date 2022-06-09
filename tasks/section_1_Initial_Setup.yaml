@@ -419,6 +419,7 @@
         name: autofs
         state: absent
         purge: yes
+        update_cache: yes
   when: disable_autofs
   tags:
     - section1
@@ -998,6 +999,7 @@
 - name: 1.9 Ensure updates, patches, and additional security software are installed
   apt:
     upgrade: dist
+    update_cache: yes
   ignore_errors: yes
   tags:
     - section1
