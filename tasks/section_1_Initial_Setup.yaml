@@ -419,7 +419,6 @@
         name: autofs
         state: absent
         purge: yes
-        update_cache: yes
   when: disable_autofs
   tags:
     - section1
