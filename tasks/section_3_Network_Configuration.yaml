@@ -41,7 +41,6 @@
       when:
         - wifiStatus.stdout_lines ==  "Wireless is not enabled"
         - disable_wifi
-  # TODO map to variable and manage the network drop
   when:
     - network_harden
   tags:
