@@ -20,7 +20,9 @@
       with_items:
         - { name: net.ipv4.conf.all.send_redirects, value: 0 }
         - { name: net.ipv4.conf.default.send_redirects, value: 0 }
-  when: IPv6_is_enabled
+  when:
+    - IPv6_is_enabled
+    - network_harden
   tags:
     - section3
     - level_2_server
@@ -40,7 +42,8 @@
         - wifiStatus.stdout_lines ==  "Wireless is not enabled"
         - disable_wifi
   # TODO map to variable and manage the network drop
-  when: false
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -66,6 +69,8 @@
         sysctl -w net.ipv4.conf.all.send_redirects=0
         sysctl -w net.ipv4.conf.default.send_redirects=0
         sysctl -w net.ipv4.route.flush=1
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -95,6 +100,8 @@
       script: 3_2_2_2.sh
       when: IPv6_is_enabled
       ignore_errors: yes
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -150,6 +157,8 @@
         sysctl -w net.ipv6.route.flush=1
       when:
         - IPv6_is_enabled
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -194,6 +203,8 @@
         sysctl -w net.ipv6.conf.default.accept_redirects=0
         sysctl -w net.ipv6.route.flush=1
       when: IPv6_is_enabled
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -221,6 +232,8 @@
         sysctl -w net.ipv4.conf.all.secure_redirects=0
         sysctl -w net.ipv4.conf.default.secure_redirects=0
         sysctl -w net.ipv4.route.flush=1
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -246,6 +259,8 @@
         sysctl -w net.ipv4.conf.all.log_martians=1
         sysctl -w net.ipv4.conf.default.log_martians=1
         sysctl -w net.ipv4.route.flush=1
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -271,6 +286,8 @@
       shell: |
         sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1
         sysctl -w net.ipv4.route.flush=1
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -291,6 +308,8 @@
       shell: |
         sysctl -w net.ipv4.icmp_ignore_bogus_error_responses=1
         sysctl -w net.ipv4.route.flush=1
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -319,6 +338,8 @@
         sysctl -w net.ipv4.conf.all.rp_filter=1
         sysctl -w net.ipv4.conf.default.rp_filter=1
         sysctl -w net.ipv4.route.flush=1
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -342,6 +363,8 @@
       shell: |
         sysctl -w net.ipv4.tcp_syncookies=1
         sysctl -w net.ipv4.route.flush=1
+  when:
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -368,7 +391,9 @@
         sysctl -w net.ipv6.conf.all.accept_ra=0
         sysctl -w net.ipv6.conf.default.accept_ra=0
         sysctl -w net.ipv6.route.flush=1
-  when: IPv6_is_enabled
+  when:
+    - IPv6_is_enabled
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -384,6 +409,8 @@
     regexp: "^(#)?install dccp(\\s|$)"
     line: "install dccp /bin/true"
     create: true
+  when:
+    - network_harden
   tags:
     - section3
     - level_2_server
@@ -403,6 +430,8 @@
     regexp: "^(#)?install sctp(\\s|$)"
     line: "install sctp /bin/true"
     create: true
+  when:
+    - network_harden
   tags:
     - section3
     - level_2_server
@@ -420,6 +449,8 @@
     regexp: "^(#)?install rds(\\s|$)"
     line: "install rds /bin/true"
     create: true
+  when:
+    - network_harden
   tags:
     - section3
     - level_2_server
@@ -434,6 +465,8 @@
     regexp: "^(#)?install tipc(\\s|$)"
     line: "install tipc /bin/true"
     create: true
+  when:
+    - network_harden
   tags:
     - section3
     - level_2_server
@@ -463,7 +496,9 @@
         state: present
         install_recommends: false
       when: UFWEnable
-  when: enable_firewall
+  when:
+    - enable_firewall
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -476,7 +511,9 @@
   apt:
     name: iptables-persistent
     state: absent
-  when: enable_firewall
+  when:
+    - enable_firewall
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -502,7 +539,9 @@
         proto: "{{ item.proto }}"
       with_items:
         - { rule: "allow", port: "22", proto: "tcp" }
-  when: UFWEnable
+  when:
+    - UFWEnable
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -533,7 +572,9 @@
         direction: in
         from: "::1"
       when: IPv6_is_enabled
-  when: enable_firewall
+  when:
+    - enable_firewall
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -549,7 +590,9 @@
 - name: 3.5.1.5 Ensure ufw outbound connections are configured
   shell: |
     ufw allow out on all
-  when: enable_firewall
+  when:
+    - enable_firewall
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -594,7 +637,9 @@
         rule: allow
         to_ip: 224.0.0.18
       when: firewall_allow_keep_alive
-  when: enable_firewall
+  when:
+    - enable_firewall
+    - network_harden
   tags:
     - section3
     - level_1_server
@@ -617,7 +662,9 @@
     - name: Enable UFW
       ufw:
         state: enabled
-  when: enable_firewall
+  when:
+    - enable_firewall
+    - network_harden
   tags:
     - section3
     - level_1_server
