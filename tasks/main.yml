@@ -1,4 +1,6 @@
 ---
+- include: section_0_global_setup.yaml
+  become: true
 - include: section_1_Initial_Setup.yaml
   become: true
 - include: section_2_Services.yaml
