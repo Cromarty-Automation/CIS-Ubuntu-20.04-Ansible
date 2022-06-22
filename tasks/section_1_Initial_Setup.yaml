@@ -533,7 +533,6 @@
     - name: Configure AIDE as appropriate for your environment | aideinit db
       shell: |
         mv /var/lib/aide/aide.db.new /var/lib/aide/aide.db
-  when: false
   tags:
     - section1
     - level_1_server
